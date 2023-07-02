@@ -35,5 +35,6 @@ int main() {
         avgTurnaroundTime += turnaroundTime[i];
     }
     printf("Average waiting time: %lf\n", avgWaitingTime / n);
+    printf("Average turnaround time: %lf\n", avgTurnaroundTime / n);
     return 0;
 }
