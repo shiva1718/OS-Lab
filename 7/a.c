@@ -1,55 +1,62 @@
+// To write a C program that implements producer consumer problem using semaphores.
 
 #include<stdio.h>
 #include<stdlib.h>
-#include<sys/types.h>
-#include<sys/ipc.h>
-#include<sys/sem.h>
-#include<unistd.h>
-#define num_loops 2
-int main(int argc,char* argv[])
-{
-    int sem_set_id;
-    int child_pid,i,sem_val;
-    struct sembuf sem_op;
-    int rc;
-    struct timespec delay;
-    sem_set_id=semget(ipc_private,2,0600);
-    if(sem_set_id==-1)
-    {
-        perror(“main:semget”);
-        exit(1);
+#include<limits.h>
+#include<semaphore.h>
+#include<pthread.h>
+
+// to write a c program that implements producer consumer problem using semaphores
+
+#define BUFFER_SIZE 7
+#define LOOP_COUNT 7
+
+int buffer[BUFFER_SIZE];
+int in = 0, out = 0;
+
+sem_t mutex, empty, full;
+
+void *producer(void *arg) {
+    int i;
+    for (i = 0; i < LOOP_COUNT; i++) {
+        sem_wait(&empty);
+        sem_wait(&mutex);
+        buffer[in] = i;
+        printf("Produced %d\n", i);
+        in = (in + 1) % BUFFER_SIZE;
+        sem_post(&mutex);
+        sem_post(&full);
     }
-    printf(“semaphore set created,semaphore setid‘%d’\n ”, sem_set_id);
-    child_pid=fork();
-    switch(child_pid)
-    {
-        case -1: perror(“fork”);
-            exit(1);
-        case 0: for(i=0;i<num_loops;i++)
-            {
-                sem_op.sem_num=0;
-                sem_op.sem_op=-1;
-                sem_op.sem_flg=0;
-                semop(sem_set_id,&sem_op,1);
-                printf(“producer:’%d’\n”,i);
-                fflush(stdout);
-            }
-            break;
-        default:
-            for(i=0;i<num_loops;i++)
-            {
-                printf(“consumer:’%d’\n”,i);
-                fflush(stdout);
-                sem_op.sem_num=0;
-                sem_op.sem_op=1;
-                sem_op.sem_flg=0;
-                semop(sem_set_id,&sem_op,1);
-                if(rand()>3*(rano_max14));
-                {
-                    delay.tv_sec=0; delay.tv_nsec=10; nanosleep(&delay,null);
-                }
-            }
-            break;
+
+    return NULL;
+}
+
+void *consumer(void *arg) {
+    int item, i;
+    for (i = 0; i < LOOP_COUNT; i++) {
+        sem_wait(&full);
+        sem_wait(&mutex);
+        item = buffer[out];
+        printf("Consumed %d\n", item);
+        out = (out + 1) % BUFFER_SIZE;
+        sem_post(&mutex);
+        sem_post(&empty);
     }
+
+    return NULL;
+}
+
+int main() {
+    sem_init(&mutex, 0, 1);
+    sem_init(&empty, 0, BUFFER_SIZE);
+    sem_init(&full, 0, 0);
+    pthread_t producerThread, consumerThread;
+    pthread_create(&producerThread, NULL, producer, NULL);
+    pthread_create(&consumerThread, NULL, consumer, NULL);
+    pthread_join(producerThread, NULL);
+    pthread_join(consumerThread, NULL);
+    sem_destroy(&mutex);
+    sem_destroy(&empty);
+    sem_destroy(&full);
     return 0;
 }

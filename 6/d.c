@@ -2,6 +2,7 @@
 
 #include<stdio.h>
 #include<stdlib.h>
+#include<limits.h>
 
 // to write a c program to implement priority scheduling algorithm
 
