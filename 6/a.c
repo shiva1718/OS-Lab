@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// to write a c program to implement round robin scheduling algorithm
+// to write a c program to implement round-robin scheduling algorithm
 
 int main() {
     int n;
@@ -38,12 +38,15 @@ int main() {
         }
         cur = (cur + 1) % n;
     }
-    double avgWatingTime = 0;
+    double avgWaitingTime = 0;
+    double avgTurnaroundTime = 0;
     printf("Process\tArrival Time\tBurst Time\tWaiting Time\tTurnaround Time\tCompletion Time\n");
     for (int i = 0; i < n; i++) {
         printf("%d\t%d\t\t%d\t\t%d\t\t%d\t\t%d\n", i + 1, arrivalTime[i], burstTimeCopy[i], waitingTime[i], turnaroundTime[i], completionTime[i]);
-        avgWatingTime += waitingTime[i];
+        avgWaitingTime += waitingTime[i];
+        avgTurnaroundTime += turnaroundTime[i];
     }
-    printf("Average waiting time: %lf\n", avgWatingTime / n);
+    printf("Average waiting time: %lf\n", avgWaitingTime / n);
+    printf("Average turnaround time: %lf\n", avgTurnaroundTime / n);
     return 0;
 }

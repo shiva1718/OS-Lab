@@ -22,13 +22,17 @@ int main() {
     int time = 0;
     int done = 0;
     while (done < n) {
-        int min = 1000000;
+        int min = INT_MAX;
         int cur = -1;
         for (int i = 0; i < n; i++) {
-            if (burstTime[i] != 0 && burstTime[i] < min) {
+            if (arrivalTime[i] <= time && burstTime[i] != 0 && burstTime[i] < min) {
                 min = burstTime[i];
                 cur = i;
             }
+        }
+        if (cur == -1) {
+            time++;
+            continue;
         }
         burstTime[cur] = 0;
         time += min;
@@ -40,12 +44,15 @@ int main() {
             turnaroundTime[cur] = time - arrivalTime[cur];
         }
     }
-    double avgWatingTime = 0;
+    double avgWaitingTime = 0;
+    double avgTurnaroundTime = 0;
     printf("Process\tArrival Time\tBurst Time\tWaiting Time\tTurnaround Time\tCompletion Time\n");
     for (int i = 0; i < n; i++) {
         printf("%d\t%d\t\t%d\t\t%d\t\t%d\t\t%d\n", i + 1, arrivalTime[i], burstTimeCopy[i], waitingTime[i], turnaroundTime[i], completionTime[i]);
-        avgWatingTime += waitingTime[i];
+        avgWaitingTime += waitingTime[i];
+        avgTurnaroundTime += turnaroundTime[i];
     }
-    printf("Average waiting time: %lf\n", avgWatingTime / n);
+    printf("Average waiting time: %lf\n", avgWaitingTime / n);
+    printf("Average turnaround time: %lf\n", avgTurnaroundTime / n);
     return 0;
 }

@@ -23,16 +23,21 @@ int main() {
     for (int i = 0; i < n; i++) {
         scanf("%d", &priority[i]);
     }
+    // Note: process with the highest priority numbers are executed first
     int time = 0;
     int done = 0;
     while (done < n) {
-        int max = -1;
+        int max = INT_MIN;
         int cur = -1;
         for (int i = 0; i < n; i++) {
-            if (burstTime[i] != 0 && priority[i] > max) {
+            if (arrivalTime[i] <= time && burstTime[i] != 0 && priority[i] > max) {
                 max = priority[i];
                 cur = i;
             }
+        }
+        if (cur == -1) {
+            time++;
+            continue;
         }
         burstTime[cur] = 0;
         time += burstTimeCopy[cur];
@@ -44,12 +49,15 @@ int main() {
             turnaroundTime[cur] = time - arrivalTime[cur];
         }
     }
-    double avgWatingTime = 0;
+    double avgWaitingTime = 0;
+    double avgTurnaroundTime = 0;
     printf("Process\tArrival Time\tBurst Time\tWaiting Time\tTurnaround Time\tCompletion Time\n");
     for (int i = 0; i < n; i++) {
         printf("%d\t%d\t\t%d\t\t%d\t\t%d\t\t%d\n", i + 1, arrivalTime[i], burstTimeCopy[i], waitingTime[i], turnaroundTime[i], completionTime[i]);
-        avgWatingTime += waitingTime[i];
+        avgWaitingTime += waitingTime[i];
+        avgTurnaroundTime += turnaroundTime[i];
     }
-    printf("Average waiting time: %lf\n", avgWatingTime / n);
+    printf("Average waiting time: %lf\n", avgWaitingTime / n);
+    printf("Average turnaround time: %lf\n", avgTurnaroundTime / n);
     return 0;
 }
