@@ -9,11 +9,15 @@ int main() {
     int n;
     printf("Enter the number of processes: ");
     scanf("%d", &n);
-    int burstTime[n], waitingTime[n], turnaroundTime[n], completionTime[n], burstTimeCopy[n];
+    int burstTime[n], waitingTime[n], turnaroundTime[n], completionTime[n], burstTimeCopy[n], arrivalTime[n];
     printf("Enter the burst times: ");
     for (int i = 0; i < n; i++) {
         scanf("%d", &burstTime[i]);
         burstTimeCopy[i] = burstTime[i];
+    }
+    printf("Enter the arrival times: ");
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &arrivalTime[i]);
     }
     int quantum;
     printf("Enter the quantum: ");
@@ -29,15 +33,17 @@ int main() {
         if (min != 0 && burstTime[cur] == 0) {
             done++;
             completionTime[cur] = time;
-            waitingTime[cur] = time - burstTimeCopy[cur];
-            turnaroundTime[cur] = time;
+            waitingTime[cur] = time - burstTimeCopy[cur] - arrivalTime[cur];
+            turnaroundTime[cur] = time - arrivalTime[cur];
         }
         cur = (cur + 1) % n;
     }
-    
-    printf("Process\tBurst Time\tWaiting Time\tTurnaround Time\tCompletion Time\n");
+    double avgWatingTime = 0;
+    printf("Process\tArrival Time\tBurst Time\tWaiting Time\tTurnaround Time\tCompletion Time\n");
     for (int i = 0; i < n; i++) {
-        printf("%d\t%d\t\t%d\t\t%d\t\t%d\n", i + 1, burstTimeCopy[i], waitingTime[i], turnaroundTime[i], completionTime[i]);
+        printf("%d\t%d\t\t%d\t\t%d\t\t%d\t\t%d\n", i + 1, arrivalTime[i], burstTimeCopy[i], waitingTime[i], turnaroundTime[i], completionTime[i]);
+        avgWatingTime += waitingTime[i];
     }
+    printf("Average waiting time: %lf\n", avgWatingTime / n);
     return 0;
 }
