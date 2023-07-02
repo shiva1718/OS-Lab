@@ -1,8 +1,9 @@
 #include<stdio.h> 
 #include<unistd.h>
 
+// no longer needed
 
-int main(){
+int main() {
     int pid;
     pid = fork(); 
     if(pid  == 0){
