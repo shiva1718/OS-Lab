@@ -1,5 +1,7 @@
 // Page Replacement Algorithm: LFU
 
+// Not perfect!
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -57,7 +59,7 @@ int main() {
             } else {
                 int mn = 0;
                 for (int j = 1; j < k; j++) {
-15                    if (freq[arr[j][i]] < freq[arr[mn][i]]) {
+                    if (freq[arr[j][i]] < freq[arr[mn][i]]) {
                         mn = j;
                     } else if (freq[arr[j][i]] == freq[arr[mn][i]] && index[j] < index[mn]) {
                         mn = j;

@@ -31,6 +31,7 @@ int main() {
     int cur = 0;
     int miss = 0, hit = 0;
     int index[k];
+    for (int i = 0; i < k; i++) index[i] = -1;
     for (int i = 0; i < n; i++) {
         int flag = 0;
         for (int j = 0; j < k; j++) {
@@ -42,19 +43,15 @@ int main() {
             }
         }
         if (!flag) {
-            if (i < k) {
-                applyFully(arr, i, i, page[i]);
-                index[i] = i;
-            } else {
-                int mn = 0;
-                for (int j = 1; j < k; j++) {
-                    if (index[j] < index[mn]) {
-                        mn = j;
-                    }
+            int mn = 0;
+            for (int j = 1; j < k; j++) {
+                if (index[j] < index[mn]) {
+                    mn = j;
                 }
-                applyFully(arr, mn, i, page[i]);
-                index[mn] = i;
             }
+            applyFully(arr, mn, i, page[i]);
+            index[mn] = i;
+            miss++;
         }
     }
     for(int m = 0;m<k;m++){
