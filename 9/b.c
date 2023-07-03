@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+int n;
+
 void applyFully(int (*arr)[n], int cur,int i, int val) {
     for (int iter = i; iter < n; iter++) {
         arr[cur][iter] = val;
@@ -10,7 +12,6 @@ void applyFully(int (*arr)[n], int cur,int i, int val) {
 }
 
 int main() {
-    int n;
     printf("Enter the number of pages: ");
     scanf("%d", &n);
     int k;
