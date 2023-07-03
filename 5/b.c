@@ -1,3 +1,7 @@
+// To write a C program to illustrate the simulation of ls command.
+
+// Present
+
 #include<stdio.h> 
 #include<stdlib.h>
 #include<string.h> 
