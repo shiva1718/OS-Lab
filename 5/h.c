@@ -1,3 +1,5 @@
+// To write a C program to illustrate the open directory, read directory and close directory command using system Calls
+
 #include<stdio.h>
 #include <sys/types.h>
 #include <dirent.h>

@@ -1,4 +1,4 @@
-// To write a C program to illustrate the simulation of ls command.
+// To write a C program to illustrate the simulation of grep command.
 
 // Present
 
